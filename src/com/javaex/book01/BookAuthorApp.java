@@ -6,9 +6,7 @@ public class BookAuthorApp {
 
 	public static void main(String[] args) {
 		
-		//ORA-00904: "BOOK_ID": invalid identifier 오류
-		
-		// book DAO 만들기 + 검색
+		// book DAO 만들기 + 검색(추가하기)
 
 		// 작가 6명 등록
 		// AuthorDao, AuthorVo 이용해서 등록
@@ -17,8 +15,7 @@ public class BookAuthorApp {
 
 		AuthorDao authorDao = new AuthorDao(); // 기능 클래스 먼저 new
 		List<AuthorVo> authorList;
-		// 리스트 선언. 처음에 오류났는데 author01패키지의 authorList가 자동으로 import돼서 이 패키지의 authorList랑
-		// 충돌함.
+		// 리스트 선언. 처음에 오류났는데 author01패키지의 authorList가 자동으로 import돼서 이 패키지의 authorList랑 충돌했기 때문.
 
 		AuthorVo authorVo1 = new AuthorVo("이문열", "경북 영양");
 		authorDao.authorInsert(authorVo1);
@@ -83,7 +80,7 @@ public class BookAuthorApp {
 		BookVo bookVo4 = new BookVo("유시민의 글쓰기 특강", "생각의길", "15/04/01", 3);
 		bookDao.bookInsert(bookVo4);
 		
-		//BookVo bookVo5 = new BookVo("패션왕", "중앙북스(books)", "12/02/22", 4);
+		//BookVo bookVo5 = new BookVo("패션왕", "중앙북스(books)", "12/02/22", 4); --> 작가 테이블에서 기안84를 지워버렸기 때문에 제외함.
 		//bookDao.bookInsert(bookVo5);
 		
 		BookVo bookVo6 = new BookVo("순정만화", "재미주의", "11/08/03", 5);
@@ -103,7 +100,8 @@ public class BookAuthorApp {
 					+ " | " + vo.getAuthorId());
 		}
 
-		// 책 수정 : 책번호 제목 출판사 출판일 작가번호
+		// 책 수정 : 책번호 제목 출판사 출판일 작가번호 
+		// (파라미터 순서는 BookVo에 맞춰야 함. DB들어 갈 때는 BookDao에 짠 대로 들어가서 순서 헷갈릴 필요X)
 		BookVo bookVo11 = new BookVo(1, "천 개의 파랑", "허블", "20/08/19", 1);
 		bookDao.bookUpdate(bookVo11);
 		
@@ -116,6 +114,7 @@ public class BookAuthorApp {
 		}
 		
 		// 책 삭제
+		// ORA-00904: "BOOK_ID": invalid identifier 오류 났었는데 bookDelete에서 쿼리문을 "delete from author"로 해놔서 그랬음.
 		bookDao.bookDelete(7);
 		
 		System.out.println("-----책 리스트(삭제)-----");

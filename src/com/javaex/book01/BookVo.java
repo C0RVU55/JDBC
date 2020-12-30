@@ -1,6 +1,6 @@
 package com.javaex.book01;
 
-public class BookVo extends AuthorVo { 
+public class BookVo { 
 	// book이 author의 author_id를 참조하니까 author 상속하기 --> 문법은 맞지만 책을 작가라고 부를 수는 없음
 	// 분류상 맞지 않아서 작가에 여러 개 상속할 경우 이상해짐. 문법뿐만 아니라 의미상으로도 맞아야 됨.
 	// 그냥 필드에 모든 컬럼명 넣으면 됨. (수정하고 검색 만들기. 검색은 오라클에서 처리 가능)
@@ -11,19 +11,22 @@ public class BookVo extends AuthorVo {
 	private String pubs;
 	private String pubDate;
 	private int authorId;
+	private String authorName;
+	private String authorDesc;
 
 	// 생성자
 	public BookVo() {
 	}
 
-	public BookVo(int bookId, String title, String pubs, String pubDate, int authorId, String authorName, String authorDesc) {
-		super.authorName = authorName;
-		super.authorDesc = authorDesc;
+	public BookVo(int bookId, String title, String pubs, String pubDate, int authorId, String authorName,
+			String authorDesc) {
 		this.bookId = bookId;
 		this.title = title;
 		this.pubs = pubs;
 		this.pubDate = pubDate;
 		this.authorId = authorId;
+		this.authorName = authorName;
+		this.authorDesc = authorDesc;
 	}
 
 	public BookVo(String title, String pubs, String pubDate, int authorId) {
@@ -82,11 +85,27 @@ public class BookVo extends AuthorVo {
 		this.authorId = authorId;
 	}
 
+	public String getAuthorName() {
+		return authorName;
+	}
+
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+
+	public String getAuthorDesc() {
+		return authorDesc;
+	}
+
+	public void setAuthorDesc(String authorDesc) {
+		this.authorDesc = authorDesc;
+	}
+
 	// 메소드 일반
 	@Override
 	public String toString() {
 		return "BookVo [bookId=" + bookId + ", title=" + title + ", pubs=" + pubs + ", pubDate=" + pubDate
-				+ ", authorId=" + authorId + "]";
+				+ ", authorId=" + authorId + ", authorName=" + authorName + ", authorDesc=" + authorDesc + "]";
 	}
 
 }

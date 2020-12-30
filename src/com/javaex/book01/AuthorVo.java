@@ -3,9 +3,9 @@ package com.javaex.book01;
 public class AuthorVo {
 
 	// 필드
-	public int authorId;
-	public String authorName;
-	public String authorDesc;
+	private int authorId;
+	private String authorName;
+	private String authorDesc;
 
 	// 생성자
 	public AuthorVo() {
