@@ -32,7 +32,7 @@ public class BookSelectAll {
 			query += "         to_char(b.pub_date, 'YY/MM/DD') pub_date, ";
 			query += "         b.author_id, ";
 			query += "         a.author_name, ";
-			query += "         a.author_desc";
+			query += "         a.author_desc ";
 			query += " FROM author a, book b ";
 			query += " where a.author_id = b.author_id ";
 			

@@ -1,4 +1,4 @@
-package com.javaex.book01;
+package com.javaex.book02;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,7 +38,7 @@ public class BookDao {
 			// 3. SQL문 준비 / 바인딩 / 실행
 			String query = "";
 			query += " insert into book ";
-			query += " values(seq_book_id.nextval, ?, ?, ?, ?) ";
+			query += " values(seq_book_author_id.nextval, ?, ?, ?, ?) ";
 
 			pstmt = conn.prepareStatement(query);
 
@@ -47,7 +47,7 @@ public class BookDao {
 			pstmt.setString(3, bookVo.getPubDate());
 			pstmt.setInt(4, bookVo.getAuthorId());
 
-			count = pstmt.executeUpdate(); // ***************주의*************** excute에는 암것도 넣으면 안 됨.........
+			count = pstmt.executeUpdate(query);
 
 			// 4.결과처리
 			System.out.println("[DAO] " + count + "건 등록");
@@ -108,7 +108,7 @@ public class BookDao {
 			pstmt.setInt(4, bookVo.getAuthorId());
 			pstmt.setInt(5, bookVo.getBookId());
 			
-			count = pstmt.executeUpdate();
+			count = pstmt.executeUpdate(query);
 
 			// 4.결과처리
 			System.out.println("[DAO] " + count + "건 수정");
@@ -161,7 +161,7 @@ public class BookDao {
 			
 			pstmt.setInt(1, bookId);
 			
-			count = pstmt.executeUpdate();
+			count = pstmt.executeUpdate(query);
 
 			// 4.결과처리
 			System.out.println("[DAO] " + count + "건 삭제");
@@ -211,14 +211,13 @@ public class BookDao {
 			query += " SELECT  book_id, ";
 			query += "         title, ";
 			query += "         pubs, ";
-			query += "         to_char(pub_date, 'YY/MM/DD') pub_date, ";
+			query += "         pub_date, ";
 			query += "         author_id ";
 			query += " FROM book ";
-
 			
 			pstmt = conn.prepareStatement(query);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery(query);
 
 			// 4.결과처리
 			while(rs.next()) {
@@ -226,7 +225,7 @@ public class BookDao {
 				String title = rs.getString("title");
 				String pubs = rs.getString("pubs");
 				String pubDate = rs.getString("pub_date");
-				int authorId = rs.getInt("author_id");	
+				int authorId = rs.getInt("author_id");				
 				
 				BookVo vo = new BookVo(bookId, title, pubs, pubDate, authorId);
 				bookList.add(vo);		
@@ -258,78 +257,5 @@ public class BookDao {
 		return bookList;
 		
 	}
-	
-	// **********전체 출력**********
-		public List<BookVo> getAllList() {
-			List<BookVo> allList = new ArrayList<BookVo>();
-			
-			// 0. import java.sql.*;
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-
-			try {
-				// 1. JDBC 드라이버 (Oracle) 로딩
-				Class.forName(driver);
-
-				// 2. Connection 얻어오기
-				conn = DriverManager.getConnection(url, id, pw);
-
-				// 3. SQL문 준비 / 바인딩 / 실행	
-				String query = "";
-				query += " SELECT  book_id, ";
-				query += "         title, ";
-				query += "         pubs, ";
-				query += "         to_char(pub_date, 'YY/MM/DD') pub_date, ";
-				query += "         b.author_id, ";
-				query += "         author_name, ";
-				query += "         author_desc";
-				query += " FROM author a, book b ";
-				query += " where a.author_id = b.author_id ";
-				
-				pstmt = conn.prepareStatement(query);
-				
-				rs = pstmt.executeQuery();
-
-				// 4.결과처리
-				while(rs.next()) {
-					int bookId = rs.getInt("book_id");
-					String title = rs.getString("title");
-					String pubs = rs.getString("pubs");
-					String pubDate = rs.getString("pub_date");
-					int authorId = rs.getInt("author_id");	
-					String authorName = rs.getString("author_name");
-					String authorDesc = rs.getString("author_desc");
-					
-					BookVo vo = new BookVo(bookId, title, pubs, pubDate, authorId, authorName, authorDesc);
-					allList.add(vo);		
-				}
-
-			} catch (ClassNotFoundException e) {
-				System.out.println("error: 드라이버 로딩 실패 - " + e);
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
-			} finally {
-
-				// 5. 자원정리
-				try {
-					if (rs != null) {
-						rs.close();
-					}
-					if (pstmt != null) {
-						pstmt.close();
-					}
-					if (conn != null) {
-						conn.close();
-					}
-				} catch (SQLException e) {
-					System.out.println("error:" + e);
-				}
-
-			}
-
-			return allList;
-			
-		}
 
 }

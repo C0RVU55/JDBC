@@ -1,6 +1,6 @@
-package com.javaex.book01;
+package com.javaex.book02;
 
-public class BookVo extends AuthorVo { // book이 author의 author_id를 참조하니까 author 상속하기
+public class BookVo {
 
 	// 필드
 	public int bookId;
@@ -11,16 +11,6 @@ public class BookVo extends AuthorVo { // book이 author의 author_id를 참조�
 
 	// 생성자
 	public BookVo() {
-	}
-
-	public BookVo(int bookId, String title, String pubs, String pubDate, int authorId, String authorName, String authorDesc) {
-		super.authorName = authorName;
-		super.authorDesc = authorDesc;
-		this.bookId = bookId;
-		this.title = title;
-		this.pubs = pubs;
-		this.pubDate = pubDate;
-		this.authorId = authorId;
 	}
 
 	public BookVo(String title, String pubs, String pubDate, int authorId) {
