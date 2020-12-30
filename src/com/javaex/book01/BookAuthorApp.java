@@ -6,7 +6,7 @@ public class BookAuthorApp {
 
 	public static void main(String[] args) {
 		
-		//***책에서 ORA-01008: not all variables bound 오류남. 작가번호 연결 못함.
+		//ORA-00904: "BOOK_ID": invalid identifier 오류
 		
 		// book DAO 만들기 + 검색
 
