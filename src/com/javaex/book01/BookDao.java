@@ -189,6 +189,87 @@ public class BookDao {
 		return count;
 		
 	}
+	
+	// **********책 검색**********
+	public List<BookVo> searching(String sch){
+		List<BookVo> resultList = new ArrayList<BookVo>();
+		
+		// 0. import java.sql.*;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			// 1. JDBC 드라이버 (Oracle) 로딩
+			Class.forName(driver);
+
+			// 2. Connection 얻어오기
+			conn = DriverManager.getConnection(url, id, pw);
+
+			// 3. SQL문 준비 / 바인딩 / 실행	
+			String query = "";
+			query += " SELECT  book_id, ";
+			query += "         title, ";
+			query += "         pubs, ";
+			query += "         to_char(pub_date, 'YY/MM/DD') pub_date, ";
+			query += "         b.author_id, ";
+			query += "         author_name, ";
+			query += "         author_desc";
+			query += " FROM author a, book b ";
+			query += " where a.author_id = b.author_id ";
+			query += " and (title like ? ";
+			query += " or pubs like ? ";
+			query += " or author_name like ? ";
+			query += " or author_desc like ?) ";
+			
+			pstmt = conn.prepareStatement(query); // 순서 유의. pstmt에 먼저 conn 대입한 다음에 set자료형 가능.
+			
+			pstmt.setString(1, "%" + sch + "%");
+			pstmt.setString(2, "%" + sch + "%");
+			pstmt.setString(3, "%" + sch + "%");
+			pstmt.setString(4, "%" + sch + "%");
+			
+			rs = pstmt.executeQuery();
+
+			// 4.결과처리
+			while(rs.next()) {
+				int bookId = rs.getInt("book_id");
+				String title = rs.getString("title");
+				String pubs = rs.getString("pubs");
+				String pubDate = rs.getString("pub_date");
+				int authorId = rs.getInt("author_id");	
+				String authorName = rs.getString("author_name");
+				String authorDesc = rs.getString("author_desc");
+				
+				BookVo vo = new BookVo(bookId, title, pubs, pubDate, authorId, authorName, authorDesc);
+				resultList.add(vo);		
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("error: 드라이버 로딩 실패 - " + e);
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+
+			// 5. 자원정리
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+
+		}
+
+		return resultList;
+	}
 
 	// **********책 출력**********
 	public List<BookVo> getBookList() {
