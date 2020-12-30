@@ -138,18 +138,7 @@ public class AuthorDao {
 		// 반환 받을 리스트(인터페이스 섞어쓰기)를 먼저 씀.
 		List<AuthorVo> authorList = new ArrayList<AuthorVo>();
 
-		// 0. import java.sql.*;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
 		try {
-			// 1. JDBC 드라이버 (Oracle) 로딩
-			Class.forName(driver);
-
-			// 2. Connection 얻어오기
-			conn = DriverManager.getConnection(url, id, pw);
-
 			// 3. SQL문 준비 / 바인딩 / 실행
 			String query = "";
 			query += " select author_id, ";
@@ -173,8 +162,6 @@ public class AuthorDao {
 				authorList.add(vo); // ***리스트에 데이터 추가하는 거 잊지 말기*** 이거 안 해서 아무것도 출력 안 됨.
 			}
 
-		} catch (ClassNotFoundException e) {
-			System.out.println("error: 드라이버 로딩 실패 - " + e);
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} 
