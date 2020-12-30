@@ -1,16 +1,29 @@
 package com.javaex.book02;
 
-public class BookVo {
+public class BookVo { // ***상속 안 함***
 
 	// 필드
-	public int bookId;
-	public String title;
-	public String pubs;
-	public String pubDate;
-	public int authorId;
+	private int bookId;
+	private String title;
+	private String pubs;
+	private String pubDate;
+	private int authorId;
+	private String authorName;
+	private String authorDesc;
 
 	// 생성자
 	public BookVo() {
+	}
+
+	public BookVo(int bookId, String title, String pubs, String pubDate, int authorId, String authorName,
+			String authorDesc) {
+		this.bookId = bookId;
+		this.title = title;
+		this.pubs = pubs;
+		this.pubDate = pubDate;
+		this.authorId = authorId;
+		this.authorName = authorName;
+		this.authorDesc = authorDesc;
 	}
 
 	public BookVo(String title, String pubs, String pubDate, int authorId) {
@@ -19,7 +32,7 @@ public class BookVo {
 		this.pubDate = pubDate;
 		this.authorId = authorId;
 	}
-	
+
 	public BookVo(int bookId, String title, String pubs, String pubDate, int authorId) {
 		this.bookId = bookId;
 		this.title = title;
@@ -29,6 +42,7 @@ public class BookVo {
 	}
 
 	// 메소드 겟셋
+
 	public int getBookId() {
 		return bookId;
 	}
@@ -69,11 +83,27 @@ public class BookVo {
 		this.authorId = authorId;
 	}
 
+	public String getAuthorName() {
+		return authorName;
+	}
+
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+
+	public String getAuthorDesc() {
+		return authorDesc;
+	}
+
+	public void setAuthorDesc(String authorDesc) {
+		this.authorDesc = authorDesc;
+	}
+
 	// 메소드 일반
 	@Override
 	public String toString() {
 		return "BookVo [bookId=" + bookId + ", title=" + title + ", pubs=" + pubs + ", pubDate=" + pubDate
-				+ ", authorId=" + authorId + "]";
+				+ ", authorId=" + authorId + ", authorName=" + authorName + ", authorDesc=" + authorDesc + "]";
 	}
 
 }
