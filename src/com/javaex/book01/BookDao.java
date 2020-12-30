@@ -154,7 +154,7 @@ public class BookDao {
 
 			// 3. SQL문 준비 / 바인딩 / 실행
 			String query = "";
-			query += " DELETE FROM author ";
+			query += " DELETE FROM book "; // ORA-00904: "BOOK_ID": invalid identifier 오류 : author테이블로 돼 있었음...
 			query += " where book_id = ? ";
 			
 			pstmt = conn.prepareStatement(query);
